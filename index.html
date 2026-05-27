@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mesole Olaoluwa | AI Security Researcher</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0e1a;
+      --surface: #111827;
+      --card: #161e30;
+      --border: #1e2d45;
+      --accent: #4f8ef7;
+      --accent2: #7dd3fc;
+      --gold: #f0c040;
+      --text: #e2e8f0;
+      --muted: #8899b0;
+      --font-display: 'DM Serif Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 3rem;
+      background: rgba(10,14,26,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent2); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(79,142,247,0.10) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 50% at 20% 80%, rgba(125,211,252,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-family: var(--font-mono); font-size: 0.78rem;
+      color: var(--accent); letter-spacing: 0.12em;
+      border: 1px solid rgba(79,142,247,0.35);
+      border-radius: 2rem; padding: 0.35rem 1rem;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      line-height: 1.1;
+      color: #fff;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-sub {
+      margin-top: 1.2rem;
+      color: var(--muted); font-size: 1.05rem;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-btns {
+      margin-top: 2.2rem; display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.6rem; border-radius: 0.5rem;
+      font-size: 0.92rem; font-weight: 600; text-decoration: none;
+      transition: all 0.2s; cursor: pointer; border: none;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+    }
+    .btn-primary:hover { background: #3b7ae0; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--accent);
+      border: 1.5px solid var(--accent);
+    }
+    .btn-outline:hover { background: rgba(79,142,247,0.1); transform: translateY(-2px); }
+
+    /* floating code card */
+    .hero-visual {
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .code-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    }
+    .code-card-header {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.9rem 1.2rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .code-body {
+      padding: 1.4rem 1.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem; line-height: 1.9;
+    }
+    .c-key { color: #7dd3fc; }
+    .c-str { color: #86efac; }
+    .c-val { color: #fca5a5; }
+    .c-num { color: var(--gold); }
+    .c-muted { color: var(--muted); }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 3rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--font-mono); font-size: 0.78rem;
+      color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      color: #fff; margin-bottom: 2.5rem;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--surface); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 1rem; }
+    .about-text p strong { color: var(--text); }
+    .stat-row { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-family: var(--font-display); font-size: 2.2rem; color: var(--accent); }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+    .skills-grid { display: grid; gap: 0.9rem; }
+    .skill-item { }
+    .skill-name { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem; color: var(--text); }
+    .skill-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .skill-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+
+    /* ── PROJECT ── */
+    #projects { background: var(--bg); }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 1rem;
+      padding: 2rem; transition: border-color 0.2s, transform 0.2s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-tag {
+      display: inline-block;
+      font-family: var(--font-mono); font-size: 0.72rem;
+      color: var(--accent); border: 1px solid rgba(79,142,247,0.3);
+      border-radius: 1rem; padding: 0.2rem 0.7rem; margin-bottom: 1rem;
+    }
+    .project-card h3 { font-family: var(--font-display); font-size: 1.4rem; color: #fff; margin-bottom: 0.8rem; }
+    .project-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.2rem; }
+    .tech-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .chip {
+      background: rgba(79,142,247,0.1); color: var(--accent2);
+      font-family: var(--font-mono); font-size: 0.72rem;
+      padding: 0.2rem 0.7rem; border-radius: 0.4rem;
+    }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--surface); }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .timeline-item { position: relative; padding-bottom: 2.5rem; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -2.4rem; top: 0.3rem;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
+    }
+    .tl-date { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); margin-bottom: 0.3rem; }
+    .tl-title { font-weight: 600; font-size: 1rem; color: var(--text); }
+    .tl-company { color: var(--muted); font-size: 0.9rem; margin-bottom: 0.6rem; }
+    .tl-desc { color: var(--muted); font-size: 0.9rem; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg); text-align: center; }
+    #contact .section-title { margin-bottom: 0.8rem; }
+    #contact p { color: var(--muted); max-width: 500px; margin: 0 auto 2rem; }
+    .contact-links { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.5rem; border-radius: 0.5rem;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text); text-decoration: none; font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.85rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <span class="nav-logo">mesole.dev</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+  <div class="hero-grid">
+    <div class="hero-text">
+      <span class="hero-tag">Available for AI Security Roles</span>
+      <h1>Mesole<br/><span>Olaoluwa</span></h1>
+      <p class="hero-sub">AI &amp; Machine Learning Researcher · Cybersecurity Enthusiast<br/>Lagos, Nigeria</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="code-card">
+        <div class="code-card-header">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+        </div>
+        <div class="code-body">
+          <div><span class="c-key">researcher</span> = {</div>
+          <div>&nbsp;&nbsp;<span class="c-str">"name"</span>: <span class="c-val">"Mesole Olaoluwa"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="c-str">"focus"</span>: <span class="c-val">"AI Security"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="c-str">"skills"</span>: [</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-val">"CNNs"</span>, <span class="c-val">"Grad-CAM"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-val">"TensorFlow"</span>, <span class="c-val">"Keras"</span></div>
+          <div>&nbsp;&nbsp;],</div>
+          <div>&nbsp;&nbsp;<span class="c-str">"projects"</span>: <span class="c-num">1</span>,</div>
+          <div>&nbsp;&nbsp;<span class="c-str">"open_to_work"</span>: <span class="c-key">True</span></div>
+          <div>}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">// about me</p>
+    <h2 class="section-title">Who I Am</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a <strong>Computer Science undergraduate</strong> from Lagos, Nigeria with a passion for the intersection of <strong>artificial intelligence and cybersecurity</strong>.</p>
+        <p>My work focuses on building deep learning models that are not only accurate but <strong>transparent and explainable</strong> — critical for high-stakes domains like healthcare and security.</p>
+        <p>I believe the next frontier in AI is making it <strong>safe, interpretable, and trustworthy</strong> — and that's the space I want to contribute to.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="stat-num">1</div><div class="stat-label">AI Project</div></div>
+          <div class="stat"><div class="stat-num">2+</div><div class="stat-label">Years Learning</div></div>
+          <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Tools Mastered</div></div>
+        </div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-item">
+          <div class="skill-name"><span>Python</span><span>75%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>TensorFlow / Keras</span><span>65%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>CNNs / Deep Learning</span><span>70%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Explainable AI (Grad-CAM)</span><span>65%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Cybersecurity Fundamentals</span><span>50%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Git</span><span>45%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:45%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">// featured work</p>
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <span class="project-tag">Deep Learning · Healthcare AI</span>
+        <h3>Breast Cancer Detection with Explainable AI</h3>
+        <p>Built a convolutional neural network (VGG19) to classify breast ultrasound images as benign, malignant, or normal. Applied Grad-CAM to make model predictions visually interpretable — highlighting the exact tissue regions influencing each diagnosis.</p>
+        <div class="tech-chips">
+          <span class="chip">Python</span>
+          <span class="chip">VGG19</span>
+          <span class="chip">TensorFlow</span>
+          <span class="chip">Keras</span>
+          <span class="chip">Grad-CAM</span>
+          <span class="chip">Kaggle Dataset</span>
+        </div>
+      </div>
+      <!-- Add more projects here as you build them -->
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">// work history</p>
+    <h2 class="section-title">Experience</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-date">2023 – Present</div>
+        <div class="tl-title">Intern — Systems &amp; Network Department</div>
+        <div class="tl-company">SecureID Limited, Nigeria</div>
+        <div class="tl-desc">Assisted in system and network monitoring, gained exposure to enterprise IT infrastructure and security practices, and supported troubleshooting and technical maintenance operations.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">2022 – 2023</div>
+        <div class="tl-title">Administrative Staff</div>
+        <div class="tl-company">ZOE Tutorials, Lagos, Nigeria</div>
+        <div class="tl-desc">Managed administrative operations, coordinated communication between tutors and students, and assisted in scheduling and academic workflow management.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">// let's connect</p>
+    <h2 class="section-title">Get In Touch</h2>
+    <p>I'm actively looking for opportunities in AI Security research and development. If you'd like to collaborate or just say hi, feel free to reach out.</p>
+    <div class="contact-links">
+      <a href="mailto:[your-email@example.com]" class="contact-link">✉ Email Me</a>
+      <a href="https://linkedin.com/in/[your-linkedin]" target="_blank" class="contact-link">LinkedIn</a>
+      <a href="https://github.com/[your-github]" target="_blank" class="contact-link">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>© 2025 Mesole Olaoluwa · Built with HTML &amp; CSS · Lagos, Nigeria</p>
+</footer>
+
+</body>
+</html>
